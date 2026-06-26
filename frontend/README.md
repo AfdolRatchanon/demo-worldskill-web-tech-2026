@@ -1,9 +1,6 @@
-# Frontend **Simple** Real DB — เวอร์ชันเรียบง่ายเพื่อการเรียนรู้ (ใช้คู่ `backend-real-db/`)
+# Frontend Real DB — เวอร์ชันเรียบง่าย (ใช้คู่ `backend/`)
 
-> 📌 โฟลเดอร์นี้คือ **ตัวเดิมแบบเรียบง่าย** (ไม่มี CSS, ไม่มี timer, เน้นอ่าน logic) รันที่ port **3001**
-> ถ้าต้องการตัว **"พร้อมแข่ง" ที่ทำครบตามเกณฑ์ (responsive + accessibility + countdown timer)** ให้ใช้ `frontend-real-db/` (port 3000) แทน
-
-ก๊อปจาก `frontend-simple/` แล้วปรับให้ใช้ API ของ `backend-real-db/` (schema official จาก `seed_data.sql`):
+ก๊อปจาก `frontend-simple/` แล้วปรับให้ใช้ API ของ `backend/` (schema official จาก `seed_data.sql`):
 สถานะ session เป็น `initialized/active/closed` (ไม่มีนับถอยหลัง), ผลคะแนนเป็น `score` ตัวเดียว + `status` (`pending/confirmed`)
 
 เวอร์ชันย่อของ `frontend/` ตัวเต็ม — **ฟีเจอร์ครบเหมือนกันทุกอย่าง** แต่:
@@ -16,12 +13,12 @@
 
 ## วิธีรัน
 
-ต้องรัน `backend-real-db` ก่อน (port 8080) แล้วค่อย:
+ต้องรัน `backend` ก่อน (port 8080) แล้วค่อย:
 
 ```bash
-cd frontend-simple-real-db
+cd frontend
 npm install
-npm run dev   # เปิดที่ http://localhost:3001
+npm run dev
 ```
 
 > หมายเหตุ: `src/api.js` ตั้ง baseURL ไว้ที่ `http://26.246.36.238:8080/api` (เหมือน frontend-simple) — ถ้ารันเครื่องเดียวกัน แก้เป็น `http://localhost:8080/api`
@@ -78,7 +75,7 @@ npm run dev   # เปิดที่ http://localhost:3001
 
 ## ต่างจาก frontend ตัวเต็มยังไง
 
-| เรื่อง | ตัวเต็ม (`frontend/`) | ตัวนี้ (`frontend-real-db/`) |
+| เรื่อง | ตัวเต็ม (`frontend/`) | ตัวนี้ (`frontend/`) |
 |-------|----------------------|---------------------------|
 | จำนวนไฟล์ใน src | 24 ไฟล์ | 9 ไฟล์ |
 | CSS | Tailwind CSS | ไม่มี |

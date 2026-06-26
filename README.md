@@ -4,14 +4,14 @@
 
 | โฟลเดอร์ | คืออะไร | เทคโนโลยี | Port |
 |----------|---------|-----------|------|
-| `backend-real-db/`  | API + ฐานข้อมูล | Node.js (Express) + MySQL | **8080** |
-| `frontend-real-db/` | **หน้าเว็บเวอร์ชันพร้อมแข่ง** (responsive + accessibility + countdown timer) | React + Vite | **3000** |
-| `frontend-simple-real-db/` | หน้าเว็บเวอร์ชันเรียบง่ายเพื่อการเรียนรู้ (ไม่มี CSS/timer) — ใช้ backend เดียวกัน | React + Vite | **3001** |
+| `backend/`  | API + ฐานข้อมูล | Node.js (Express) + MySQL | **8080** |
+| `frontend/` | **หน้าเว็บเวอร์ชันพร้อมแข่ง** (responsive + accessibility + countdown timer) | React + Vite | **3000** |
+| `frontend-simple/` | หน้าเว็บเวอร์ชันเรียบง่ายเพื่อการเรียนรู้ (ไม่มี CSS/timer) — ใช้ backend เดียวกัน | React + Vite | **3001** |
 
-> 👉 ใช้งานจริง/ส่งตรวจให้ใช้ **`frontend-real-db/`** ส่วน `frontend-simple-real-db/` ไว้อ่านทำความเข้าใจ logic
+> 👉 ใช้งานจริง/ส่งตรวจให้ใช้ **`frontend/`** ส่วน `frontend-simple/` ไว้อ่านทำความเข้าใจ logic
 
 > ⚠️ **สำคัญที่สุดสำหรับการตรวจข้อสอบ:** ระบบตรวจจะเข้าถึงผ่าน frontend แล้ว frontend ต้องคุยกับ backend ให้ได้
-> ต้องแก้ไฟล์ `frontend-real-db/.env` ให้ชี้ไปที่ IP ของเครื่องที่รัน backend → ดูหัวข้อ
+> ต้องแก้ไฟล์ `frontend/.env` ให้ชี้ไปที่ IP ของเครื่องที่รัน backend → ดูหัวข้อ
 > [3. ตั้งค่า `.env` ของ Frontend](#3-ตั้งค่า-env-ของ-frontend-สำคัญสำหรับระบบตรวจข้อสอบ)
 
 ---
@@ -28,12 +28,12 @@
 
 > ลำดับสำคัญ: ติดตั้ง **Backend ให้เสร็จและรันได้ก่อน** แล้วค่อยทำ Frontend
 
-### Backend (`backend-real-db/`)
+### Backend (`backend/`)
 
 #### 1. ติดตั้ง dependency
 
 ```bash
-cd backend-real-db
+cd backend
 npm install
 ```
 
@@ -45,7 +45,7 @@ npm install
 cp .env.example .env
 ```
 
-เปิดไฟล์ `backend-real-db/.env` แล้วแก้:
+เปิดไฟล์ `backend/.env` แล้วแก้:
 
 ```env
 DB_HOST=localhost
@@ -83,7 +83,7 @@ npm run seed
 ```bash
 # สร้างฐานข้อมูล แล้ว import ไฟล์เข้าไป (รันใน cmd/PowerShell/terminal)
 mysql -u root -p -e "CREATE DATABASE IF NOT EXISTS worldskill2026_real;"
-mysql -u root -p worldskill2026_real < backend-real-db/database/seed_data.sql
+mysql -u root -p worldskill2026_real < backend/database/seed_data.sql
 ```
 
 หรือทำในหน้าจอ MySQL prompt:
@@ -93,7 +93,7 @@ mysql -u root -p
 -- เมื่อเข้ามาแล้ว:
 CREATE DATABASE IF NOT EXISTS worldskill2026_real;
 USE worldskill2026_real;
-SOURCE C:/path/to/backend-real-db/database/seed_data.sql;
+SOURCE C:/path/to/backend/database/seed_data.sql;
 ```
 
 > 🛠️ **เรื่อง schema เพิ่มเติม (auto-migration):** ระบบนี้มี countdown timer ซึ่งต้องใช้คอลัมน์ `started_at`
@@ -113,12 +113,12 @@ npm run dev      # โหมดพัฒนา (auto-restart ด้วย nodemo
 
 ---
 
-### Frontend (`frontend-real-db/`)
+### Frontend (`frontend/`)
 
 #### 1. ติดตั้ง dependency
 
 ```bash
-cd frontend-real-db
+cd frontend
 npm install
 ```
 
@@ -130,7 +130,7 @@ cp .env.example .env
 
 #### 3. ตั้งค่า `.env` ของ Frontend ⭐ (สำคัญสำหรับระบบตรวจข้อสอบ)
 
-นี่คือจุดที่ทำให้ **ระบบตรวจข้อสอบเข้าถึง backend ได้** เปิดไฟล์ `frontend-real-db/.env`:
+นี่คือจุดที่ทำให้ **ระบบตรวจข้อสอบเข้าถึง backend ได้** เปิดไฟล์ `frontend/.env`:
 
 ```env
 # แก้ค่านี้ให้ตรงกับ IP ของเครื่องที่รัน backend ตอนแข่งขัน
@@ -158,7 +158,7 @@ VITE_API_URL=http://192.168.1.50:8080/api
 
 > ⚠️ **ข้อควรระวัง (ห้ามพลาด):**
 > 1. ต้องขึ้นต้นด้วย `http://` และลงท้ายด้วย `/api` เสมอ
-> 2. ใช้ `PORT` ให้ตรงกับที่ตั้งไว้ใน `backend-real-db/.env` (ค่าเริ่มต้น `8080`)
+> 2. ใช้ `PORT` ให้ตรงกับที่ตั้งไว้ใน `backend/.env` (ค่าเริ่มต้น `8080`)
 > 3. **แก้ `.env` แล้วต้อง `Ctrl+C` หยุด `npm run dev` แล้วรันใหม่** — Vite อ่านค่า `.env` แค่ตอนเริ่มรันเท่านั้น
 > 4. อย่าใช้ `localhost` ถ้าให้เครื่องอื่นเข้ามาดู เพราะ `localhost` ของเครื่องนั้นจะหมายถึงตัวมันเอง ไม่ใช่เครื่อง backend
 
@@ -187,7 +187,7 @@ npm run dev
 
 1. [ ] MySQL เปิดอยู่ และ `npm run seed` ผ่านโดยไม่มี error
 2. [ ] Backend รันอยู่ → เปิด `http://localhost:8080/api/...` ตอบกลับได้
-3. [ ] `frontend-real-db/.env` → `VITE_API_URL` ชี้ไปที่ **IP จริง** ของเครื่อง backend (ไม่ใช่ `localhost` ถ้าตรวจจากเครื่องอื่น)
+3. [ ] `frontend/.env` → `VITE_API_URL` ชี้ไปที่ **IP จริง** ของเครื่อง backend (ไม่ใช่ `localhost` ถ้าตรวจจากเครื่องอื่น)
 4. [ ] หยุดแล้วรัน `npm run dev` ใหม่หลังแก้ `.env`
 5. [ ] ทดสอบ login จากเครื่องอื่นได้สำเร็จ → แปลว่า frontend คุยกับ backend ได้แล้ว
 
@@ -199,7 +199,7 @@ npm run dev
 |-------|-------------------|--------|
 | Login แล้วหมุน / ขึ้น Network Error | `VITE_API_URL` ผิด หรือ backend ไม่ได้รัน | เช็กว่า backend รันอยู่ + `VITE_API_URL` ถูก แล้วรัน `npm run dev` ใหม่ |
 | แก้ `.env` แล้วไม่มีอะไรเปลี่ยน | Vite ยังใช้ค่าเดิม | `Ctrl+C` แล้ว `npm run dev` ใหม่ |
-| `npm run seed` error เชื่อม MySQL ไม่ได้ | `DB_USER`/`DB_PASSWORD` ผิด หรือ MySQL ไม่ได้เปิด | แก้ `backend-real-db/.env` ให้ตรง แล้วเปิดบริการ MySQL |
+| `npm run seed` error เชื่อม MySQL ไม่ได้ | `DB_USER`/`DB_PASSWORD` ผิด หรือ MySQL ไม่ได้เปิด | แก้ `backend/.env` ให้ตรง แล้วเปิดบริการ MySQL |
 | เครื่องอื่นเข้า `http://<IP>:3000` ไม่ได้ | Firewall บล็อก หรือใช้ `localhost` | เปิด port 3000/8080 ใน Firewall + ใช้ IP จริงใน `VITE_API_URL` |
 | backend crash ทันทีที่รัน / ขึ้น `EADDRINUSE` | มี backend อีกตัวถือ port 8080 อยู่ (เปิดซ้อนกัน) | หา PID: `Get-NetTCPConnection -LocalPort 8080 -State Listen` แล้วปิด: `Stop-Process -Id <PID> -Force` — รัน backend ตัวเดียวพอ |
 | timer ไม่ขึ้น / `/api/config` error 500 | คอลัมน์ `started_at` ไม่ถูกเติม (DB user ไม่มีสิทธิ์ `ALTER`) | ใช้ user ที่มีสิทธิ์ ALTER (เช่น `root`) หรือเติมเอง: `ALTER TABLE sessions ADD COLUMN started_at DATETIME NULL;` |
@@ -211,14 +211,14 @@ npm run dev
 ตรวจสอบจริงจากโค้ดเทียบกับ `RSC2026_TD_Web_Technologies.md`, `TP2026.md` และ
 `WSC2026_17_Web_Technologies_marking_scheme.md`
 
-> **ขอบเขต:** ตารางด้านล่างอ้างอิง **`frontend-real-db/` (เวอร์ชันพร้อมแข่ง)** + `backend-real-db/`
+> **ขอบเขต:** ตารางด้านล่างอ้างอิง **`frontend/` (เวอร์ชันพร้อมแข่ง)** + `backend/`
 > ครอบคลุมทั้งข้อ Measurement (M) ที่ตรวจอัตโนมัติได้ (Newman/Playwright) จนถึง responsive/accessibility/timer
 > ✅ = ทำครบตรงสเปก · ข้อ Judgement (J) ที่กรรมการให้คะแนนเองจะระบุแยกไว้ตอนท้าย
-> (เวอร์ชัน `frontend-simple-real-db/` เป็นตัวเรียนรู้ ไม่ได้ออกแบบให้ครบ B5/WCAG)
+> (เวอร์ชัน `frontend-simple/` เป็นตัวเรียนรู้ ไม่ได้ออกแบบให้ครบ B5/WCAG)
 
 ### Criterion A — Backend API (40)
 
-ครบทั้ง 18 endpoint ตาม `TP2026.md` §6 (ตรวจจาก `backend-real-db/src/routes/`)
+ครบทั้ง 18 endpoint ตาม `TP2026.md` §6 (ตรวจจาก `backend/src/routes/`)
 
 | Endpoint | ไฟล์ | สถานะ |
 |----------|------|:----:|
@@ -254,7 +254,7 @@ npm run dev
 | **Session lifecycle: session เดียว** — เปิดซ้ำ = เริ่มต่อ session เดิม (รีเซ็ต timer, **ไม่ล้าง**คะแนน/submission) · ล้างข้อมูลจริงทำผ่าน re-seed | ✅ | `sessionController.js` (UPDATE แถวเดียว ไม่สร้าง session ใหม่) |
 | Manager เป็น read-only | ✅ | endpoint manager เป็น GET ทั้งหมด |
 | Recheck / Confirm flow + กันการ confirm ซ้ำ | ✅ | `recheckSubmission`, `confirmResult` |
-| **LAN URL validation** — บังคับ private IP (10/172.16–31/192.168) + localhost, ปฏิเสธ public/domain | ✅ | `submissionsController.js` (`isLanHost`) |
+| **URL validation** — ตรวจรูปแบบ URL (http/https + well-formed) ทุก submission · *ไม่บังคับ private IP* เพราะระบบตรวจสนามส่ง URL ทั่วไป (เช่น `example.com`) มาทดสอบ | ✅ | `submissionsController.js` (`validateUrls`) |
 | **หมดเวลาแล้วปิดรับ submission อัตโนมัติ** → **403** | ✅ | `utils/session.js` (lazy auto-close) |
 
 ### Criterion B — Frontend (25)
@@ -282,7 +282,7 @@ npm run dev
 
 | เกณฑ์ | สถานะ | อ้างอิง |
 |---|:--:|---|
-| แยกโครงสร้างชัดเจน (routes / controllers / middlewares / config) | ✅ | โครงสร้าง `backend-real-db/src/` |
+| แยกโครงสร้างชัดเจน (routes / controllers / middlewares / config) | ✅ | โครงสร้าง `backend/src/` |
 | มี comment อธิบาย + README สำหรับส่งมอบ | ✅ | comment ภาษาไทยทั้ง frontend + เอกสารชุดนี้ |
 
 ### หมายเหตุสำคัญเรื่องการตรวจอัตโนมัติ
@@ -295,7 +295,7 @@ npm run dev
 
 ### สิ่งที่ส่งมอบ (`TP2026.md` §11) ครบในโฟลเดอร์นี้
 
-- ✅ Source code: `backend-real-db/`, `frontend-real-db/` (+ `frontend-simple-real-db/`)
-- ✅ Database schema + seed: `backend-real-db/database/seed_data.sql` — import ได้ทั้งผ่าน `seed.js` หรือ cmd (ดูหัวข้อติดตั้ง วิธี B)
+- ✅ Source code: `backend/`, `frontend/` (+ `frontend-simple/`)
+- ✅ Database schema + seed: `backend/database/seed_data.sql` — import ได้ทั้งผ่าน `seed.js` หรือ cmd (ดูหัวข้อติดตั้ง วิธี B)
 - ✅ README วิธีรันระบบ (ไฟล์นี้)
 - ▶️ Frontend URL / Backend API Base URL → ส่งตอนแข่งตามรูปแบบ `http://<IP>:3000` และ `http://<IP>:8080/api`

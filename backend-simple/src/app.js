@@ -18,8 +18,8 @@ app.use('/api', require('./routes/submissions'));
 app.use('/api', require('./routes/results'));
 app.use('/api', require('./routes/candidates'));
 app.use('/api', require('./routes/session'));
-// app.use('/api', require('./routes/statistics'));
-// app.use('/api', require('./routes/report'));
+app.use('/api', require('./routes/statistics'));
+app.use('/api', require('./routes/report'));
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => console.log(`Backend running on http://localhost:${PORT}`));

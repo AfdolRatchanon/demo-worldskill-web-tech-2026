@@ -25,9 +25,9 @@ export default function App() {
         <Route path="/judge" element={
           <ProtectedRoute role="judge"><JudgePage /></ProtectedRoute>
         } />
-        {/* <Route path="/manager" element={
+        <Route path="/manager" element={
           <ProtectedRoute role="manager"><ManagerPage /></ProtectedRoute>
-        } /> */}
+        } />
         {/* URL อื่นๆ ที่ไม่รู้จัก → เด้งไปหน้า login */}
         <Route path="*" element={<Navigate to="/login" />} />
       </Routes>

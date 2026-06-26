@@ -6,14 +6,31 @@ async function getCurrentTaskId() {
   return rows[0] ? rows[0].id : null;
 }
 
-// ตรวจ URL แต่ละช่อง — ต้องกรอก + เป็น URL ที่ถูก format + ขึ้นต้นด้วย http(s)
-// (ไม่บังคับว่าต้องเป็น IP ภายใน LAN — ระบบตรวจส่ง URL ทั่วไป เช่น https://example.com มาทดสอบ)
+// host ต้องเป็น IP ภายใน LAN (private/loopback) หรือ localhost เท่านั้น
+// ตามโจทย์ RSC2026: เครือข่ายห้องแข่งเป็น IP ภายใน (เช่น 10.10.0.x) ไม่มี DNS/โดเมนภายนอก
+function isLanHost(host) {
+  if (host === 'localhost') return true;
+  const m = host.match(/^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/);
+  if (!m) return false; // ไม่ใช่ IPv4 (เช่น domain name) → ไม่ผ่าน
+  const oct = [Number(m[1]), Number(m[2]), Number(m[3]), Number(m[4])];
+  if (oct.some((n) => n > 255)) return false;
+  const [a, b] = oct;
+  if (a === 10) return true;                         // 10.0.0.0/8
+  if (a === 172 && b >= 16 && b <= 31) return true;  // 172.16.0.0/12
+  if (a === 192 && b === 168) return true;           // 192.168.0.0/16
+  if (a === 127) return true;                        // loopback 127.0.0.0/8
+  return false;                                      // public IP → ไม่ผ่าน
+}
+
 function validateOne(label, value) {
   if (!value) return `${label} is required`;
   let u;
   try { u = new URL(value); } catch { return `${label} must be a valid URL`; }
   if (u.protocol !== 'http:' && u.protocol !== 'https:') {
     return `${label} must start with http:// or https://`;
+  }
+  if (!isLanHost(u.hostname)) {
+    return `${label} must be an internal LAN address (private IP or localhost), not a public or domain address`;
   }
   return null;
 }
